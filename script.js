@@ -1,4 +1,4 @@
-// ============================================
+/// ============================================
 //  Unit 8.7 – Forms & Event Listeners
 // ============================================
 //  Complete each section below by following
@@ -18,6 +18,8 @@
 // STEP 1: Get the "Shout" button by its ID ("btnShout")
 //         using document.getElementById()
 
+let btnShout = document.getElementById("btnShout");
+
 // STEP 2: Add a click event listener to the button.
 //         Inside the listener function:
 //         a) Get the text from the input with ID "shoutInput"
@@ -28,6 +30,12 @@
 //            using .innerHTML
 //
 //         Example: "hello" → "HELLO!"
+
+btnShout.addEventListener("click", function() {
+    let shoutText = document.getElementById("shoutInput").value;
+    let shoutResult = shoutText.toUpperCase() + "!";
+    document.getElementById("outShout").innerHTML = shoutResult;
+});
 
 
 // ============================================
@@ -44,16 +52,40 @@
 //         Add a click event listener.
 //         Inside the listener:
 
+let btnCalc = document.getElementById("btnCalc");
+
+btnCalc.addEventListener("click", function() {
+
 //   a) Get the selected size price:
 //      Use document.getElementsByName("rg") to get all
 //      size radio buttons. Loop through them to find the
 //      one that is .checked, and read its .value.
 //      Convert to a number with parseFloat().
 
+    let sizes = document.getElementsByName("rg");
+    let sizePrice = 0;
+
+    for (let i = 0; i < sizes.length; i++) {
+        if (sizes[i].checked) {
+            sizePrice = parseFloat(sizes[i].value);
+        }
+    }
+
 //   b) Count checked toppings:
 //      Use document.getElementsByName("cb") to get all
 //      topping checkboxes. Loop through and count how
 //      many are .checked. Multiply count by 0.50.
+
+    let toppings = document.getElementsByName("cb");
+    let toppingCount = 0;
+
+    for (let i = 0; i < toppings.length; i++) {
+        if (toppings[i].checked) {
+            toppingCount++;
+        }
+    }
+
+    let toppingPrice = toppingCount * 0.50;
 
 //   c) Get the service fee:
 //      Use document.getElementById("serviceSelect").value
@@ -64,9 +96,24 @@
 //        "takeout"  → 1.50
 //        "delivery" → 3.00
 
+    let service = document.getElementById("serviceSelect").value;
+    let serviceFee;
+
+    if (service === "dinein") {
+        serviceFee = 0;
+    } else if (service === "takeout") {
+        serviceFee = 1.50;
+    } else {
+        serviceFee = 3.00;
+    }
+
 //   d) Calculate total: size + toppings + service fee
 
+    let total = sizePrice + toppingPrice + serviceFee;
+
 //   e) Get the customer name from the input with ID "myInput"
+
+    let customerName = document.getElementById("myInput").value;
 
 //   f) Display the result in the element with ID "myPara":
 //      "[name], your total is $[total]"
@@ -74,12 +121,45 @@
 //      Example: "Alice, your total is $13.50"
 //      If name is empty, use "Customer" as the default.
 
+    if (customerName === "") {
+        customerName = "Customer";
+    }
+
+    document.getElementById("myPara").innerHTML =
+        customerName + ", your total is $" + total.toFixed(2);
+
+});
+
 
 // STEP 4: Get the "Clear" button by ID ("clearBtn")
 //         Add a click event listener.
 //         Inside the listener:
 //         a) Set the name input value to ""
+
+let clearBtn = document.getElementById("clearBtn");
+
+clearBtn.addEventListener("click", function() {
+
+    document.getElementById("myInput").value = "";
+
 //         b) Set the Large radio (id "r3") to checked = true
+
+    document.getElementById("r3").checked = true;
+
 //         c) Uncheck ALL topping checkboxes (loop through them)
+
+    let toppings = document.getElementsByName("cb");
+
+    for (let i = 0; i < toppings.length; i++) {
+        toppings[i].checked = false;
+    }
+
 //         d) Set the service dropdown value to "dinein"
+
+    document.getElementById("serviceSelect").value = "dinein";
+
 //         e) Set the output paragraph innerHTML to ""
+
+    document.getElementById("myPara").innerHTML = "";
+
+});
